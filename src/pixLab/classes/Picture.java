@@ -182,6 +182,48 @@ public class Picture extends SimplePicture
 		  }
 	  }
   }
+  
+  public void keepOnlyBlue()
+  {
+	  Pixel[][] original = this.getPixels2D();
+	  for(int row = 0; row < original.length; row++)
+	  {
+		  for(int col = 0; col < original[0].length; col++)
+		  {
+			  Pixel currentPixel = original[row][col];
+			  currentPixel.setRed(0);
+			  currentPixel.setGreen(0);
+		  }
+	  }
+  }
+  
+  public void keepOnlyRed()
+  {
+	  Pixel[][] original = this.getPixels2D();
+	  for(int row = 0; row < original.length; row++)
+	  {
+		  for(int col = 0; col < original[0].length; col++)
+		  {
+			  Pixel currentPixel = original[row][col];
+			  currentPixel.setBlue(0);
+			  currentPixel.setGreen(0);
+		  }
+	  }
+  }
+  
+  public void keepOnlyGreen()
+  {
+	  Pixel[][] original = this.getPixels2D();
+	  for(int row = 0; row < original.length; row++)
+	  {
+		  for(int col = 0; col < original[0].length; col++)
+		  {
+			  Pixel currentPixel = original[row][col];
+			  currentPixel.setRed(0);
+			  currentPixel.setBlue(0);
+		  }
+	  }
+  }
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture
     * from left to right */
@@ -219,6 +261,7 @@ public class Picture extends SimplePicture
 		  }
 	  }
   }
+  
   public void mirrorVerticalRighttoLeft()
   {
 	  Pixel[][] pixels = this.getPixels2D();
@@ -235,6 +278,17 @@ public class Picture extends SimplePicture
 		  }
 	  }
 	  
+  }
+  
+  public void mirrorHorizontal()
+  {
+	  Pixel[][] pixels =this.getPixels2D();
+	  Pixel TopPixel = null;
+	  Pixel BottomPixel = null;
+	  for(int row = 0; row < pixels.length/2; row--)
+	  {
+		  
+	  }
   }
   
   
@@ -343,7 +397,7 @@ public class Picture extends SimplePicture
    */
   public static void main(String[] args) 
   {
-    Picture beach = new Picture("arch.jpg");
+    Picture beach = new Picture("snowman.jpg");
     beach.explore();
     beach.toString();
     beach.createCollage();
@@ -354,7 +408,7 @@ public class Picture extends SimplePicture
     beach.explore();
     beach.maxBlue();
     beach.explore();
-    beach.write("SoManyFilters.png");
+    beach.keepOnlyBlue();
   }
   
 } // this } is the end of class Picture, put all new methods before this
