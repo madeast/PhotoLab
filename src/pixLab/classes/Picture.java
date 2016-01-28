@@ -273,7 +273,7 @@ public class Picture extends SimplePicture
 		  for(int col = pixels[0].length - 1; col > pictureWidth/2; col--)
 		  {
 			  rightPixel = pixels[row][col];
-			  leftPixel = pixels[row][pictureWidth + 1 + col];
+			  leftPixel = pixels[row][(pictureWidth/2 - (col - pictureWidth/2))];
 			  leftPixel.setColor(rightPixel.getColor());
 		  }
 	  }
@@ -285,10 +285,40 @@ public class Picture extends SimplePicture
 	  Pixel[][] pixels =this.getPixels2D();
 	  Pixel TopPixel = null;
 	  Pixel BottomPixel = null;
-	  for(int row = 0; row < pixels.length/2; row--)
+	  for(int col = 0; col < pixels[0].length; col++)
 	  {
-		  
+		for(int row = 0; row < pixels.length/2; row++)
+		{
+			TopPixel = pixels[row][col];
+			BottomPixel = pixels[((pixels.length/2) + (pixels.length/2 - row) - 1)][col];
+			BottomPixel.setColor(TopPixel.getColor());
+		}
 	  }
+  }
+  
+  /*
+   * 
+   */
+  
+  public void mirrorHorizontalBottomToTop()
+  {
+	  Pixel[][] pixels =this.getPixels2D();
+	  Pixel TopPixel = null;
+	  Pixel BottomPixel = null;
+	  for(int col = 0; col < pixels[0].length; col++)
+	  {
+		for(int row = pixels.length - 1; row >= pixels.length/2; row--)
+		{
+			BottomPixel = pixels[row][col];
+			TopPixel = pixels[((pixels.length/2) - (row - (pixels.length/2)) + 1)][col];
+			TopPixel.setColor(BottomPixel.getColor());
+		}
+	  }
+  }
+  
+  public void mirrorArms()
+  {
+	 mirrorHorizontalBottomToTop();
   }
   
   
@@ -399,16 +429,21 @@ public class Picture extends SimplePicture
   {
     Picture beach = new Picture("snowman.jpg");
     beach.explore();
-    beach.toString();
-    beach.createCollage();
-    beach.zeroRed();
+    beach.mirrorVerticalRighttoLeft();
     beach.explore();
+    beach.mirrorHorizontal();
     beach.explore();
-    beach.zeroBlue();
+    beach.mirrorHorizontalBottomToTop();
     beach.explore();
-    beach.maxBlue();
+    beach.mirrorArms();
+    beach.explore();
+    beach.keepOnlyRed();
     beach.explore();
     beach.keepOnlyBlue();
+    beach.explore();
+    beach.keepOnlyGreen();
+    beach.explore();
+    
   }
   
 } // this } is the end of class Picture, put all new methods before this
