@@ -94,7 +94,9 @@ public class Picture extends SimplePicture
     {
       for (Pixel pixelObj : rowArray)
       {
+    	int tempBlue = pixelObj.getBlue();
         pixelObj.setBlue(0);
+        tempBlue = pixelObj.getBlue();
       }
     }
   }
@@ -224,6 +226,50 @@ public class Picture extends SimplePicture
 		  }
 	  }
   }
+  
+  
+  public void grayScale()
+  	   {
+	  Pixel[][] pixels = this.getPixels2D();
+	  for (Pixel[] rowArray : pixels)
+	    {
+	      for (Pixel pixelObj : rowArray)
+	      {
+	    	int average = (int)pixelObj.getAverage();
+	    	pixelObj.setBlue(average);
+	    	pixelObj.setRed(average);
+	    	pixelObj.setGreen(average);
+	    	
+	      }
+	     }
+  		}
+  
+  public void negate()
+  {
+	  Pixel[][] original = this.getPixels2D();
+	  for(int row = 0; row < original.length; row++)
+	  {
+		  for(int col = 0; col < original[0].length; col++)
+		  {
+			  Pixel currentPixel = original[row][col];
+			  
+			  int newRed;
+			  int newBlue;
+			  int newGreen;
+			  
+			  newBlue = 255 - currentPixel.getBlue();
+			  newGreen = 255 - currentPixel.getGreen();
+			  newRed = 255 -currentPixel.getRed();
+			  
+			  currentPixel.setRed(newRed);
+			  currentPixel.setBlue(newBlue);
+			  currentPixel.setGreen(newGreen);
+		  }
+	  }
+  }
+  
+  
+  
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture
     * from left to right */
@@ -345,7 +391,7 @@ public class Picture extends SimplePicture
       }
     }
   }
-  
+
   /** copy from the passed fromPic to the
     * specified startRow and startCol in the
     * current picture
@@ -421,28 +467,56 @@ public class Picture extends SimplePicture
     }
   }
   
+  public void copy(int startRow, int endRow, int startCol, int endCol)
+  {
+	    
+  }
+  
+  public void fixUnderwater()
+  {
+	  Pixel[][] original = this.getPixels2D();
+	  for(int row = 0; row < original.length; row++)
+	  {
+		  for(int col = 0; col < original[0].length; col++)
+		  {
+			  Pixel currentPixel = original[row][col];
+			
+			  currentPixel.setGreen(Math.abs(100 - currentPixel.getGreen()));
+			  currentPixel.setBlue(Math.abs(100 - currentPixel.getBlue()));
+			  currentPixel.setRed(Math.abs(50 + currentPixel.getRed()));
+			
+		  }
+	  }
+  }
+  
+  public void mirrorGull()
+  {
+	  int mirrorPoint = 400;
+	  Pixel[][] original = this.getPixels2D();
+	  Pixel leftPixel = null;
+	  Pixel rightPixel = null;
+	  int count = 0;
+	  for(int row = 220; row < 330; row++)
+	  {
+		  for(int col = 248; col < 348; col++)
+		  {
+			  leftPixel = original[row][col];
+			  rightPixel = original[row][mirrorPoint - col + mirrorPoint];
+			  rightPixel.setColor(leftPixel.getColor());
+		  }
+	  }
+  }
   
   /* Main method for testing - each class in Java can have a main 
    * method 
    */
   public static void main(String[] args) 
   {
-    Picture beach = new Picture("snowman.jpg");
+    Picture beach = new Picture("seagull.jpg");
     beach.explore();
-    beach.mirrorVerticalRighttoLeft();
+    beach.mirrorGull();
     beach.explore();
-    beach.mirrorHorizontal();
-    beach.explore();
-    beach.mirrorHorizontalBottomToTop();
-    beach.explore();
-    beach.mirrorArms();
-    beach.explore();
-    beach.keepOnlyRed();
-    beach.explore();
-    beach.keepOnlyBlue();
-    beach.explore();
-    beach.keepOnlyGreen();
-    beach.explore();
+ 
     
   }
   
