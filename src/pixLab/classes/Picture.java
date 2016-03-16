@@ -507,6 +507,49 @@ public class Picture extends SimplePicture
 	  }
   }
   
+  public void edgeDetection2(int edgeDist)
+  {
+	  
+	  Pixel TopPixel = null;
+	  Pixel BottomPixel = null;
+	  Pixel leftPixel = null;
+	    Pixel rightPixel = null;
+	    Pixel[][] pixels = this.getPixels2D();
+	    Color rightColor = null;
+	    Color topColor = null;
+			 for(int col = 0; col < pixels[0].length; col++)
+			  {
+				for(int row = pixels.length - 1; row >= pixels.length/2; row--)
+				{
+					BottomPixel = pixels[row][col];
+					TopPixel = pixels[((pixels.length/2) - (row - (pixels.length/2)) + 1)][col];
+					TopPixel.setColor(BottomPixel.getColor());
+					if(BottomPixel.colorDistance(topColor) > edgeDist)
+					{
+						BottomPixel.setColor(Color.BLACK);
+					}
+					else
+					{
+						BottomPixel.setColor(Color.WHITE);
+					}
+				}
+		  }
+	   /*
+	    for (int row = 0; row < pixels.length; row++)
+	    {
+	      for (int col2 = 0;  col2 < pixels[0].length-1; col2++)
+	      {
+	        leftPixel = pixels[row][col2];
+	        rightPixel = pixels[row][col2+1];
+	        rightColor = rightPixel.getColor();
+	        if (leftPixel.colorDistance(rightColor) > 
+	            edgeDist)
+	          leftPixel.setColor(Color.BLACK);
+	        else
+	          leftPixel.setColor(Color.WHITE);
+	      }
+	    }*/
+  }
   /* Main method for testing - each class in Java can have a main 
    * method 
    */
@@ -514,7 +557,7 @@ public class Picture extends SimplePicture
   {
     Picture beach = new Picture("seagull.jpg");
     beach.explore();
-    beach.mirrorGull();
+    beach.edgeDetection2(70);
     beach.explore();
  
     
